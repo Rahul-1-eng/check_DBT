@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confusion Hunter - Understanding Aadhaar Linking vs DBT Seeding for scholarship payments">
+    <title>Confusion Hunter - Aadhaar DBT Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                <span class="brand-text">Confusion Hunter</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="nav-menu desktop-menu">
+                <a href="#" class="nav-link" onclick="showPage('home')">Home</a>
+                <a href="#" class="nav-link" onclick="showPage('difference')">What's the Difference?</a>
+                <a href="#" class="nav-link" onclick="showPage('guide')">Step-by-Step Guide</a>
+                <a href="#" class="nav-link" onclick="showPage('check')">Check DBT Status</a>
+                <a href="#" class="nav-link" onclick="showPage('resources')">Resources</a>
+                <a href="#" class="nav-link hidden" id="adminNavLink" onclick="showPage('admin')">Admin</a>
+                
+                <div class="language-selector">
+                    <svg class="lang-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <select id="languageSelect" class="lang-select" onchange="changeLanguage()">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu">
+            <a href="#" class="mobile-link" onclick="showPage('home'); toggleMobileMenu()">Home</a>
+            <a href="#" class="mobile-link" onclick="showPage('difference'); toggleMobileMenu()">What's the Difference?</a>
+            <a href="#" class="mobile-link" onclick="showPage('guide'); toggleMobileMenu()">Step-by-Step Guide</a>
+            <a href="#" class="mobile-link" onclick="showPage('check'); toggleMobileMenu()">Check DBT Status</a>
+            <a href="#" class="mobile-link" onclick="showPage('resources'); toggleMobileMenu()">Resources</a>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <div class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="badge">
+                        <svg class="badge-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Education Platform for DBT Awareness
+                    </div>
+                    
+                    <h1 class="hero-title" data-i18n="hero.title">Confusion Hunter</h1>
+                    <p class="hero-subtitle" data-i18n="hero.subtitle">Understanding Aadhaar Linking vs DBT Seeding</p>
+                    <p class="hero-description" data-i18n="hero.description">Clear guidance for students and parents on getting scholarship payments right</p>
+                    
+                    <div class="hero-buttons">
+                        <button onclick="showPage('difference')" class="btn btn-primary">
+                            <span data-i18n="hero.cta">Learn the Difference</span>
+                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </button>
+                        <button onclick="showPage('check')" class="btn btn-secondary" data-i18n="hero.ctaSecondary">
+                            Check Your Status
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <svg class="feature-icon blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <h3 class="feature-title">Clear Explanations</h3>
+                        <p class="feature-desc">Understand the difference between linking and seeding in simple terms</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <svg class="feature-icon green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="feature-title">Step-by-Step Guide</h3>
+                        <p class="feature-desc">Follow our detailed process to enable DBT seeding correctly</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <svg class="feature-icon purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <h3 class="feature-title">AI Assistant</h3>
+                        <p class="feature-desc">Get instant answers to your Aadhaar and DBT questions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Difference Page -->
+    <div id="differencePage" class="page">
+        <div class="container page-container">
+            <h1 class="page-title" data-i18n="difference.title">What's the Difference?</h1>
+            
+            <div class="comparison-grid">
+                <!-- Aadhaar Linking -->
+                <div class="comparison-card red">
+                    <div class="comparison-icon-wrapper red">
+                        <svg class="comparison-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                    <h2 class="comparison-title" data-i18n="difference.aadhaarLink">Aadhaar Linking</h2>
+                    <p class="comparison-desc" data-i18n="difference.aadhaarLinkDesc">Just connecting your Aadhaar number to your bank account</p>
+                    <ul class="comparison-list">
+                        <li><span class="bullet red">•</span> Required by banks</li>
+                        <li><span class="bullet red">•</span> Basic KYC compliance</li>
+                        <li><span class="bullet red">•</span> NOT enough for scholarships</li>
+                    </ul>
+                </div>
+
+                <!-- DBT Seeding -->
+                <div class="comparison-card green">
+                    <div class="comparison-icon-wrapper green">
+                        <svg class="comparison-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h2 class="comparison-title" data-i18n="difference.dbtSeed">DBT Seeding (Aadhaar Enabled)</h2>
+                    <p class="comparison-desc" data-i18n="difference.dbtSeedDesc">Making your account ready to receive government benefits</p>
+                    <ul class="comparison-list">
+                        <li><span class="bullet green">✓</span> Required for scholarships</li>
+                        <li><span class="bullet green">✓</span> Enables direct benefit transfer</li>
+                        <li><span class="bullet green">✓</span> Must be done explicitly</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <div>
+                    <p class="alert-title" data-i18n="difference.key">Key Point: Linking ≠ Seeding!</p>
+                    <p class="alert-text">Most students have linking but are missing seeding. That's why scholarships fail!</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button onclick="showPage('guide')" class="btn btn-primary">
+                    Learn How to Enable Seeding
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide Page -->
+    <div id="guidePage" class="page">
+        <div class="container page-container-narrow">
+            <h1 class="page-title" data-i18n="guide.title">Step-by-Step Seeding Guide</h1>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-icon-wrapper blue">
+                        <svg class="step-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-number blue">1</span>
+                            <h3 class="step-title" data-i18n="guide.step1">Visit Your Bank Branch</h3>
+                        </div>
+                        <p class="step-desc" data-i18n="guide.step1Desc">Go to your bank with Aadhaar card and passbook</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon-wrapper green">
+                        <svg class="step-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-number green">2</span>
+                            <h3 class="step-title" data-i18n="guide.step2">Request DBT Seeding</h3>
+                        </div>
+                        <p class="step-desc" data-i18n="guide.step2Desc">Ask specifically for 'Aadhaar seeding for DBT'</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon-wrapper purple">
+                        <svg class="step-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-number purple">3</span>
+                            <h3 class="step-title" data-i18n="guide.step3">Get Confirmation</h3>
+                        </div>
+                        <p class="step-desc" data-i18n="guide.step3Desc">Ensure you receive written confirmation</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon-wrapper orange">
+                        <svg class="step-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-number orange">4</span>
+                            <h3 class="step-title" data-i18n="guide.step4">Verify Status</h3>
+                        </div>
+                        <p class="step-desc" data-i18n="guide.step4Desc">Check your DBT status using our tool</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check Page -->
+    <div id="checkPage" class="page">
+        <div class="container page-container-narrow">
+            <h1 class="page-title" data-i18n="check.title">Check DBT Status (Educational Demo)</h1>
+            
+            <div class="disclaimer-box">
+                <svg class="disclaimer-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <p class="disclaimer-text" data-i18n="check.disclaimer">This is a simulated check for educational purposes only. Not connected to actual NPCI/UIDAI systems.</p>
+            </div>
+
+            <form id="dbtCheckForm" class="check-form" onsubmit="handleDbtCheck(event)">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="check.bankLabel">Bank Account Number</label>
+                    <input 
+                        type="text"
+                        id="accountNumber"
+                        placeholder="Enter account number"
+                        class="form-input"
+                        maxlength="16"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-i18n="check.aadhaarLabel">Last 4 digits of Aadhaar</label>
+                    <input 
+                        type="text"
+                        id="aadhaarLast4"
+                        placeholder="XXXX"
+                        class="form-input"
+                        maxlength="4"
+                        pattern="[0-9]{4}"
+                        required
+                    />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" data-i18n="check.checkButton">
+                    Check Status
+                </button>
+            </form>
+
+            <div id="checkResult" class="hidden"></div>
+        </div>
+    </div>
+
+    <!-- Resources Page -->
+    <div id="resourcesPage" class="page">
+        <div class="container page-container">
+            <h1 class="page-title" data-i18n="resources.title">Download Resources</h1>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <svg class="resource-icon blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <h3 class="resource-title" data-i18n="resources.infographics">Infographics & Posters</h3>
+                    <div class="resource-list">
+                        <button class="resource-item">
+                            <span>Difference Guide (EN)</span>
+                            <svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </button>
+                        <button class="resource-item">
+                            <span>Difference Guide (HI)</span>
+                            <svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </button>
+                        <button class="resource-item">
+                            <span>Step-by-Step Poster</span>
+                            <svg class="download-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <svg class="resource-icon green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <h3 class="resource-title" data-i18n="resources.videos">Video Guides</h3>
+                    <div class="resource-list">
+                        <button class="resource-item">Introduction Video</button>
+                        <button class="resource-item">Bank Visit Guide</button>
+                        <button class="resource-item">Common Mistakes</button>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <svg class="resource-icon purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <h3 class="resource-title" data-i18n="resources.faqs">FAQs & Documentation</h3>
+                    <div class="resource-list">
+                        <button class="resource-item">Complete FAQ PDF</button>
+                        <button class="resource-item">Bank List & Contacts</button>
+                        <button class="resource-item">Troubleshooting Guide</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Page -->
+    <div id="adminPage" class="page">
+        <div class="container page-container">
+            <h1 class="page-title" data-i18n="admin.title">Admin Dashboard</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <svg class="stat-icon blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <span class="stat-number">1,247</span>
+                    <p class="stat-label">Total Chat Queries</p>
+                </div>
+
+                <div class="stat-card">
+                    <svg class="stat-icon green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="stat-number">856</span>
+                    <p class="stat-label">DBT Status Checks</p>
+                </div>
+
+                <div class="stat-card">
+                    <svg class="stat-icon purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span class="stat-number">12</span>
+                    <p class="stat-label">Available Resources</p>
+                </div>
+
+                <div class="stat-card">
+                    <svg class="stat-icon orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <span class="stat-number">423</span>
+                    <p class="stat-label">Active Users Today</p>
+                </div>
+            </div>
+
+            <div class="queries-card">
+                <h2 class="queries-title">Top Queries (Last 7 Days)</h2>
+                <div class="queries-list">
+                    <div class="query-item">
+                        <span class="query-text">How to enable DBT seeding?</span>
+                        <span class="query-count">234</span>
+                    </div>
+                    <div class="query-item">
+                        <span class="query-text">What's the difference between linking and seeding?</span>
+                        <span class="query-count">187</span>
+                    </div>
+                    <div class="query-item">
+                        <span class="query-text">Which bank do I need to visit?</span>
+                        <span class="query-count">156</span>
+                    </div>
+                    <div class="query-item">
+                        <span class="query-text">How long does seeding take?</span>
+                        <span class="query-count">143</span>
+                    </div>
+                    <div class="query-item">
+                        <span class="query-text">My scholarship was rejected, what to do?</span>
+                        <span class="query-count">98</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div id="chatWindow" class="chat-window hidden">
+            <div class="chat-header">
+                <div class="chat-header-content">
+                    <svg class="chat-header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <div>
+                        <h3 class="chat-header-title" data-i18n="chat.title">Confusion Hunter Assistant</h3>
+                        <p class="chat-header-subtitle">Always here to help</p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="chat-close-btn">
+                    <svg class="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="chatMessages" class="chat-messages"></div>
+
+            <div class="chat-input-container">
+                <input 
+                    type="text"
+                    id="chatInput"
+                    placeholder="Ask me about Aadhaar and DBT..."
+                    class="chat-input"
+                    onkeypress="handleChatKeypress(event)"
+                />
+                <button onclick="sendChatMessage()" class="chat-send-btn">
+                    <svg class="send-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <button id="chatToggleBtn" onclick="toggleChat()" class="chat-toggle-btn">
+            <svg class="chat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Confusion Hunter - Aadhaar DBT Education Platform</p>
+            <p class="footer-subtext">Empowering students with clarity on DBT processes</p>
+            <div class="footer-links">
+                <button onclick="toggleAdmin()" class="footer-link" id="adminToggle">
+                    Admin Login
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
